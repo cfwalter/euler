@@ -4,7 +4,6 @@ __author__ = "Christian F. Walter"
 from math import factorial
 
 if __name__ == "__main__":
-  # from bottom to top, sum max of two numbers below
   total = 1
   n = 1
   skip = 2

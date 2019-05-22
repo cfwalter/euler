@@ -1,38 +1,28 @@
-#!/usr/bin/env python3
-__author__ = "Christian F. Walter"
-
-from math import sqrt
+from itertools import combinations
 
 def is_prime(n, primes):
-  s = sqrt(n)
-  for p in primes:
-    if n % p == 0:
-      return False
-    if p > s:
-      return True
-  return True
+    for i in primes:
+        if i**2 > n:
+            return True
+        if n % i == 0:
+            return False
+    return True
 
-if __name__ == "__main__":
-  winner = 0
-  terms = 0
-  total = 5
-  primes = [2,3]
-  n = 5
-  while total < 1000:
-    if is_prime(n, primes):
-      primes.append(n)
-      total += n
-    if is_prime(total, primes):
-      terms = len(primes)
-      winner = total
-    n += 2
+def gen_primes(n):
+    primes = [2,3,5,7]
+    for i in range(11, n):
+        if is_prime(i, primes):
+            primes.append(i)
+    return primes
 
-  i = 0
-  while i+terms <= len(primes):
-    print('[{}:{}]'.format(i, i+terms))
-    if is_prime(sum(primes[i:i+terms]), primes):
-      winner = sum(primes[i:i+terms])
-    i += 1
+n = 10**6
+primes = gen_primes(n)
 
-  print(primes)
-  print(winner)
+max_seq = (0,0)
+s_p = set(primes)
+for i,j in combinations(range(600), 2):
+    s = sum(primes[i:j]) if j-i > max_seq[1]-max_seq[0] else 0
+    if s < n and s in s_p:
+        max_seq = (i, j)
+
+sum(primes[max_seq[0]:max_seq[1]])
